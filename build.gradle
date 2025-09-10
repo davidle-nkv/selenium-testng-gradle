@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    // maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    testImplementation 'org.testng:testng:7.9.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.25.0'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+    // testImplementation 'org.monte:monte-screen-recorder:0.7.7'
+    // testImplementation 'org.monte:monte-media:0.7.7'
+    // https://mvnrepository.com/artifact/com.github.stephenc.monte/monte-screen-recorder
+    implementation 'com.github.stephenc.monte:monte-screen-recorder:0.7.7.0'
+}
+
+test {
+    useTestNG() {
+        suites 'src/test/resources/testng.xml'
+    }
+}
