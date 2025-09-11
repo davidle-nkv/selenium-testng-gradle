@@ -1,5 +1,6 @@
 package testngtest;
 
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,9 +21,21 @@ public class Test1 {
 
     @BeforeTest
     public void launchBrowser() {        
-        System.out.println("Launching Chrome browser");
+//        System.out.println("Launching Chrome browser");
+//        WebDriverManager.chromedriver().setup();
+//        driver = new ChromeDriver();
+//        driver.get(baseUrl);
+
+        System.out.println("Launching Chrome browser in headless mode");
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");     // Run headless (new mode for Chrome >=109)
+        options.addArguments("--no-sandbox");       // Required in many CI environments
+        options.addArguments("--disable-dev-shm-usage"); // Avoid /dev/shm space issues
+        options.addArguments("--remote-allow-origins=*"); // Helps with some versions of ChromeDriver
+
+        driver = new ChromeDriver(options);
         driver.get(baseUrl);
     }
 
