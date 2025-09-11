@@ -35,7 +35,7 @@ public class Test1 {
 //        options.addArguments("--disable-dev-shm-usage"); // Avoid /dev/shm space issues
 //        options.addArguments("--remote-allow-origins=*"); // Helps with some versions of ChromeDriver
 
-        options.addArguments("--headless=new");  // modern headless mode
+//        options.addArguments("--headless=new");  // modern headless mode
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");  // important for Xvfb
