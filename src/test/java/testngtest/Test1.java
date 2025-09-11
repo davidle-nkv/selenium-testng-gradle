@@ -14,7 +14,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.testng.annotations.Listeners;
 
-@Listeners({ VideoListener.class, testngtest.LogListener.class, testngtest.ScreenshotListener.class })
+@Listeners({ VideoListenerWithUI.class, testngtest.LogListener.class, testngtest.ScreenshotListener.class })
 public class Test1 {
     public String baseUrl = "https://www.browserstack.com/";
     public WebDriver driver;    
