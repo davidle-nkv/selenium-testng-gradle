@@ -30,10 +30,16 @@ public class Test1 {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");     // Run headless (new mode for Chrome >=109)
-        options.addArguments("--no-sandbox");       // Required in many CI environments
-        options.addArguments("--disable-dev-shm-usage"); // Avoid /dev/shm space issues
-        options.addArguments("--remote-allow-origins=*"); // Helps with some versions of ChromeDriver
+//        options.addArguments("--headless=new");     // Run headless (new mode for Chrome >=109)
+//        options.addArguments("--no-sandbox");       // Required in many CI environments
+//        options.addArguments("--disable-dev-shm-usage"); // Avoid /dev/shm space issues
+//        options.addArguments("--remote-allow-origins=*"); // Helps with some versions of ChromeDriver
+
+        options.addArguments("--headless=new");  // modern headless mode
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");  // important for Xvfb
+        options.addArguments("--window-size=1920,1080");
 
         driver = new ChromeDriver(options);
         driver.get(baseUrl);
