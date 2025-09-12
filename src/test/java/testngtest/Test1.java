@@ -20,22 +20,11 @@ public class Test1 {
     public WebDriver driver;    
 
     @BeforeTest
-    public void launchBrowser() {        
-//        System.out.println("Launching Chrome browser");
-//        WebDriverManager.chromedriver().setup();
-//        driver = new ChromeDriver();
-//        driver.get(baseUrl);
-
+    public void launchBrowser() {
         System.out.println("Launching Chrome browser in headless mode");
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless=new");     // Run headless (new mode for Chrome >=109)
-//        options.addArguments("--no-sandbox");       // Required in many CI environments
-//        options.addArguments("--disable-dev-shm-usage"); // Avoid /dev/shm space issues
-//        options.addArguments("--remote-allow-origins=*"); // Helps with some versions of ChromeDriver
-
-//        options.addArguments("--headless=new");  // modern headless mode
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");  // important for Xvfb
