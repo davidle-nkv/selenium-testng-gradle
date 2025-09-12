@@ -12,11 +12,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class ScreenshotListener implements ITestListener {
-    
+
     private void captureScreenshot(WebDriver driver, String fileName) {
         File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         try {
-            File targetFile = new File("screenshots/" + fileName + ".png");
+            File targetFile = new File("screenshots/" + Utils.generateFileName(fileName) + ".png");
             targetFile.getParentFile().mkdirs(); // ensure folder exists
             FileHandler.copy(srcFile, targetFile);
             System.out.println("Screenshot saved: " + targetFile.getAbsolutePath());
