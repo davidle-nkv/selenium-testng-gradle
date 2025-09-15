@@ -47,25 +47,29 @@ public class LoginPage {
         return this;
     }
     
-    public boolean isRedirectedToConfiguration() {
+    public boolean waitForUrlContains(String urlPart) {
         try {
-            wait.until(ExpectedConditions.urlContains("/configuration"));
-            return true;
+            return wait.until(ExpectedConditions.urlContains(urlPart));
         } catch (Exception e) {
             return false;
         }
     }
     
-    public boolean isErrorMessageDisplayed(String expectedMessage) {
+    public boolean isErrorMessageDisplayed() {
         try {
-            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
-            return error.isDisplayed() && error.getText().equals(expectedMessage);
+            WebElement errorElement = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+            return errorElement.isDisplayed();
         } catch (Exception e) {
             return false;
         }
     }
     
-    public String getCurrentUrl() {
-        return driver.getCurrentUrl();
+    public String getErrorMessageText() {
+        try {
+            WebElement errorElement = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+            return errorElement.getText();
+        } catch (Exception e) {
+            return "";
+        }
     }
 }
