@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 @Test(groups = {"login"})
 @Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
 public class LoginTest extends BaseTest {
-    private final String LOGIN_URL = "https://localhost:4443/c/login";
+    private final String LOGIN_URL = "https://10.8.80.19:4443/c/login";
 
     @Test(description = "Test Case 1: Successful login")
     public void testSuccessfulLogin() {
