@@ -1,4 +1,4 @@
-package com.nakivo.pages.dashboard;
+package com.nakivo.pages.dashboard_bk;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,14 +16,14 @@ import java.time.Duration;
  * Time: 4:19 PM
  */
 
-public class DashboardPage {
+public class DashboardPage_bk {
     private WebDriver driver;
     private WebDriverWait wait;
 
     // Locators
     private By dashboardHeader = By.xpath("//h1[contains(text(),'Dashboard')] | //div[@id='dashboard'] | //div[contains(@class,'dashboard')]");
 
-    public DashboardPage(WebDriver driver) {
+    public DashboardPage_bk(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
@@ -42,8 +42,6 @@ public class DashboardPage {
     }
 
     public boolean isUserOnDashboard() {
-//        String currentUrl = getCurrentUrl();
-//        return currentUrl.contains("/configuration"); // || currentUrl.contains("/home") || isDashboardDisplayed();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.urlContains("/configuration"));
     }

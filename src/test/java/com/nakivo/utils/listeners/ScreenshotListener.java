@@ -1,6 +1,7 @@
 package com.nakivo.utils.listeners;
 
-import com.nakivo.tests.login.LoginTest;
+import com.nakivo.tests.base.BaseTest;
+import com.nakivo.tests.login_bk.LoginTest_bk;
 import com.nakivo.utils.Utils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -17,13 +18,13 @@ public class ScreenshotListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        WebDriver driver = ((LoginTest) result.getInstance()).getDriver();
+        WebDriver driver = ((BaseTest) result.getInstance()).getDriver();
         captureScreenshot(driver, result.getName() + "_FAILED");
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        WebDriver driver = ((LoginTest) result.getInstance()).getDriver();
+        WebDriver driver = ((BaseTest) result.getInstance()).getDriver();
         captureScreenshot(driver, result.getName() + "_PASSED");
     }
 

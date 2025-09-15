@@ -24,8 +24,8 @@ dependencies {
 //}
 test {
     useTestNG() {
-        if (System.getProperty("groups")) {
-            includeGroups System.getProperty("groups")
+        if (project.hasProperty("groups")) {
+            includeGroups project.property("groups")
         }
     }
 }

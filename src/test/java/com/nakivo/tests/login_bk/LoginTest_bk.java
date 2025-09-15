@@ -1,10 +1,10 @@
-package com.nakivo.tests.login;
+package com.nakivo.tests.login_bk;
 
+import com.nakivo.pages.login_bk.LoginPage_bk;
 import com.nakivo.utils.listeners.LogListener;
 import com.nakivo.utils.listeners.ScreenshotListener;
 import com.nakivo.utils.listeners.VideoListenerWithUI;
-import com.nakivo.pages.dashboard.DashboardPage;
-import com.nakivo.pages.login.LoginPage;
+import com.nakivo.pages.dashboard_bk.DashboardPage_bk;
 import com.nakivo.tests.base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
@@ -17,16 +17,16 @@ import org.testng.annotations.Test;
  * Date: 9/12/2025
  * Time: 4:16 PM
  */
-@Test(groups = {"login"})
-@Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
-public class LoginTest extends BaseTest {
+//@Test(groups = {"login_bk"})
+//@Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
+public class LoginTest_bk extends BaseTest {
     private final String LOGIN_URL = "https://10.8.80.19:4443/c/login";
 
-    @Test(description = "Test Case 1: Successful login")
+//    @Test(description = "Test Case 1: Successful login")
     public void testSuccessfulLogin() {
         System.out.println("Starting test: Successful login");
-        LoginPage loginPage = new LoginPage(driver);
-        DashboardPage dashboardPage = new DashboardPage(driver);
+        LoginPage_bk loginPage = new LoginPage_bk(driver);
+        DashboardPage_bk dashboardPage = new DashboardPage_bk(driver);
 
         // Step 1: Open the login page
         loginPage.navigateToLoginPage(LOGIN_URL);
@@ -47,11 +47,11 @@ public class LoginTest extends BaseTest {
         System.out.println("Completed test: Successful login");
     }
 
-    @Test(description = "Test Case 2: Unsuccessful login with invalid credentials")
+//    @Test(description = "Test Case 2: Unsuccessful login with invalid credentials")
     public void testUnsuccessfulLoginInvalidPassword() {
         System.out.println("Starting test: Unsuccessful login with invalid credentials");
 
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage_bk loginPage = new LoginPage_bk(driver);
 
         // Step 1: Open the login page
         loginPage.navigateToLoginPage(LOGIN_URL);
