@@ -1,5 +1,6 @@
-package testngtest;
+package com.nakivo.utils.listeners;
 
+import com.nakivo.utils.Utils;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -9,7 +10,6 @@ import org.monte.screenrecorder.ScreenRecorder;
 
 import java.awt.*;
 import java.io.File;
-import java.nio.ByteOrder;
 
 import static org.monte.media.AudioFormatKeys.*;
 import static org.monte.media.VideoFormatKeys.*;
@@ -27,20 +27,20 @@ public class VideoListenerWithUI implements ITestListener {
 
             screenRecorder = new CustomScreenRecorder(gc,
                     gc.getBounds(),
-                    new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_AVI),
-                    new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-                            CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-                            DepthKey, 24, FrameRateKey, Rational.valueOf(15),
+                    new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_QUICKTIME),
+                    new Format(MediaTypeKey, MediaType.VIDEO,
+                            EncodingKey, ENCODING_QUICKTIME_JPEG,
+                            CompressorNameKey, ENCODING_QUICKTIME_JPEG,
+                            DepthKey, 24,
+                            FrameRateKey, Rational.valueOf(15),
                             QualityKey, 1.0f,
                             KeyFrameIntervalKey, 15 * 60),
-                    new Format(MediaTypeKey, MediaType.AUDIO, EncodingKey, ENCODING_PCM_SIGNED,
-                            FrameRateKey, new Rational(44100, 1),
-                            SampleSizeInBitsKey, 16, ChannelsKey, 2,
-                            SignedKey, true, ByteOrderKey, ByteOrder.LITTLE_ENDIAN),
+                    null,
                     null,
                     new File("videos"),
                     Utils.generateFileName(result.getName()));
             screenRecorder.start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

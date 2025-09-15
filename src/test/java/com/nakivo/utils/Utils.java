@@ -1,4 +1,12 @@
-package testngtest;
+package com.nakivo.utils;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * Description.
@@ -15,4 +23,5 @@ public class Utils {
     public static String generateFileName(String fileName) {
         return fileName + "_" + jiraKey + "_" + buildNumber;
     }
+
 }
