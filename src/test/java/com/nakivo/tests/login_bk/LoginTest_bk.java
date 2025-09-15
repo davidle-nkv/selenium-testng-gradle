@@ -1,9 +1,9 @@
 package com.nakivo.tests.login_bk;
 
 import com.nakivo.pages.login_bk.LoginPage_bk;
-import com.nakivo.utils.listeners.LogListener;
-import com.nakivo.utils.listeners.ScreenshotListener;
-import com.nakivo.utils.listeners.VideoListenerWithUI;
+import com.nakivo.listeners.LogListener;
+import com.nakivo.listeners.ScreenshotListener;
+import com.nakivo.listeners.VideoListenerWithUI;
 import com.nakivo.pages.dashboard_bk.DashboardPage_bk;
 import com.nakivo.tests.base.BaseTest;
 import org.testng.Assert;

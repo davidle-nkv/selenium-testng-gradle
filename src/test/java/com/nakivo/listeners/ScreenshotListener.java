@@ -1,7 +1,6 @@
-package com.nakivo.utils.listeners;
+package com.nakivo.listeners;
 
 import com.nakivo.tests.base.BaseTest;
-import com.nakivo.tests.login_bk.LoginTest_bk;
 import com.nakivo.utils.Utils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
