@@ -1,51 +1,43 @@
 package com.nakivo.tests.login;
 
-import com.nakivo.pages.login.LoginPage;
 import com.nakivo.tests.base.BaseTest;
-import com.nakivo.listeners.VideoListenerWithUI;
-import com.nakivo.listeners.LogListener;
-import com.nakivo.listeners.ScreenshotListener;
+import com.nakivo.pages.login.LoginPage;
+import com.nakivo.tests.listeners.VideoListenerWithUI;
+import com.nakivo.tests.listeners.LogListener;
+import com.nakivo.tests.listeners.ScreenshotListener;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 @Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
 public class LoginTest extends BaseTest {
     
-    private LoginPage loginPage;
-    private static final String LOGIN_URL = "https://10.8.80.19:4443/c/login";
-    
-    @BeforeMethod
-    public void setUp() {
-        loginPage = new LoginPage(driver);
-    }
-    
-    @Test(groups = {"login"})
+    @Test(description = "Test Case 1: Successful login")
     public void testSuccessfulLogin() {
-        loginPage.navigateToLoginPage(LOGIN_URL)
-                 .enterUsername("user")
-                 .enterPassword("user")
-                 .clickLoginButton();
+        LoginPage loginPage = new LoginPage(driver);
         
-        Assert.assertTrue(loginPage.isRedirectedToConfiguration(), 
-                         "User should be redirected to configuration page after successful login");
+        loginPage.navigateToLoginPage("https://10.8.80.19:4443/c/login")
+                .enterUsername("user")
+                .enterPassword("user")
+                .clickLoginButton();
         
-        Assert.assertTrue(loginPage.getCurrentUrl().contains("/configuration"),
-                         "URL should contain '/configuration' after successful login");
+        boolean isRedirectedToConfiguration = loginPage.waitForUrlContains("/configuration");
+        Assert.assertTrue(isRedirectedToConfiguration, "User should be redirected to configuration page after successful login");
     }
     
-    @Test(groups = {"login"})
-    public void testUnsuccessfulLoginInvalidCredentials() {
-        loginPage.navigateToLoginPage(LOGIN_URL)
-                 .enterUsername("wronguser")
-                 .enterPassword("wrongpassword")
-                 .clickLoginButton();
+    @Test(description = "Test Case 2: Unsuccessful login with invalid credentials")
+    public void testUnsuccessfulLoginWithInvalidCredentials() {
+        LoginPage loginPage = new LoginPage(driver);
         
-        Assert.assertTrue(loginPage.isErrorMessageDisplayed("Incorrect credentials."),
-                         "Error message 'Incorrect credentials.' should be displayed for invalid login");
+        loginPage.navigateToLoginPage("https://10.8.80.19:4443/c/login")
+                .enterUsername("wronguser")
+                .enterPassword("wrongpassword")
+                .clickLoginButton();
         
-        Assert.assertTrue(loginPage.getCurrentUrl().contains("/login"),
-                         "User should remain on login page after unsuccessful login attempt");
+        boolean isErrorDisplayed = loginPage.isErrorMessageDisplayed();
+        Assert.assertTrue(isErrorDisplayed, "Error message should be displayed for invalid credentials");
+        
+        String errorText = loginPage.getErrorMessageText();
+        Assert.assertEquals(errorText, "Incorrect credentials.", "Error message text should match expected value");
     }
 }
