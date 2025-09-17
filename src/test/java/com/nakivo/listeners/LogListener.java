@@ -19,7 +19,7 @@ public class LogListener implements ITestListener {
             if (!logDir.exists()) {
                 logDir.mkdirs();
             }
-            String logFile = "logs/" + Utils.generateFileName(result.getName()) + ".log";
+            String logFile = "build/reports/logs/" + Utils.generateFileName(result.getName()) + ".log";
             writer = new PrintWriter(new FileWriter(logFile, true));
             writer.println("=== Test Started: " + result.getName() + " ===");
         } catch (Exception e) { e.printStackTrace(); }
