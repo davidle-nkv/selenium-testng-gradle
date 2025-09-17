@@ -15,7 +15,7 @@ public class LogListener implements ITestListener {
     public void onTestStart(ITestResult result) {
         try {
             // Ensure logs folder exists
-            File logDir = new File("logs");
+            File logDir = new File("build/reports/logs");
             if (!logDir.exists()) {
                 logDir.mkdirs();
             }

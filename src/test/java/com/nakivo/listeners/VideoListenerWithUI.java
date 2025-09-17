@@ -37,7 +37,7 @@ public class VideoListenerWithUI implements ITestListener {
                             KeyFrameIntervalKey, 15 * 60),
                     null,
                     null,
-                    new File("videos"),
+                    new File("build/reports/videos"),
                     Utils.generateFileName(result.getName()));
             screenRecorder.start();
 

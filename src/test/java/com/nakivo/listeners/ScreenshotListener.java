@@ -44,7 +44,7 @@ public class ScreenshotListener implements ITestListener {
     private void captureScreenshot(WebDriver driver, String filename) {
         try {
             File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            File destFile = new File("screenshots/" + Utils.generateFileName(filename) + ".png");
+            File destFile = new File("build/reports/screenshots/" + Utils.generateFileName(filename) + ".png");
             destFile.getParentFile().mkdirs(); // make sure folder exists
             Files.copy(srcFile.toPath(), destFile.toPath());
             System.out.println("Saved screenshot: " + destFile.getAbsolutePath());
