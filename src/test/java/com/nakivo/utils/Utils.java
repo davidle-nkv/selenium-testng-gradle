@@ -16,8 +16,8 @@ import java.nio.file.Files;
  * Time: 12:32 PM
  */
 public class Utils {
-    //    private String jiraKey = System.getenv("JIRA_ISSUE_KEY");   // from TeamCity param
-    private static String jiraKey = "NJM-145895";
+    private static String jiraKey = System.getenv("JIRA_ISSUE_KEY");   // from TeamCity param
+//    private static String jiraKey = "NJM-145895";
     private static String buildNumber = System.getenv("BUILD_NUMBER"); // from TeamCity
 
     public static String generateFileName(String fileName) {
