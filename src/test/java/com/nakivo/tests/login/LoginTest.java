@@ -16,28 +16,27 @@ public class LoginTest extends BaseTest {
     public void testSuccessfulLogin() {
         LoginPage loginPage = new LoginPage(driver);
         
-        loginPage.navigateTo("https://10.8.80.19:4443/c/login")
+        loginPage.navigateToLoginPage("https://10.8.80.19:4443/c/login")
                 .enterUsername("user")
                 .enterPassword("user")
                 .clickLoginButton();
         
-        boolean isRedirected = loginPage.waitForUrlContains("/configuration");
-        Assert.assertTrue(isRedirected, "User should be redirected to configuration page after successful login");
+        Assert.assertTrue(loginPage.isRedirectedToConfiguration(), 
+                "User was not redirected to configuration page after successful login");
     }
     
-    @Test(description = "Test Case 2: Unsuccessful login with invalid credentials")
-    public void testUnsuccessfulLoginInvalidCredentials() {
+    @Test(description = "Test Case 2: Unsuccessful login with invalid password")
+    public void testUnsuccessfulLoginInvalidPassword() {
         LoginPage loginPage = new LoginPage(driver);
         
-        loginPage.navigateTo("https://10.8.80.19:4443/c/login")
+        loginPage.navigateToLoginPage("https://10.8.80.19:4443/c/login")
                 .enterUsername("wronguser")
                 .enterPassword("wrongpassword")
                 .clickLoginButton();
         
-        boolean isErrorDisplayed = loginPage.isErrorMessageDisplayed();
-        Assert.assertTrue(isErrorDisplayed, "Error message should be displayed for invalid credentials");
-        
-        String errorText = loginPage.getErrorMessageText();
-        Assert.assertEquals(errorText, "Incorrect credentials.", "Error message text should match expected value");
+        Assert.assertTrue(loginPage.isErrorMessageDisplayed(), 
+                "Error message was not displayed for invalid credentials");
+        Assert.assertEquals(loginPage.getErrorMessageText(), "Incorrect credentials.", 
+                "Error message text does not match expected");
     }
 }
