@@ -16,20 +16,20 @@ public class LoginTest extends BaseTest {
     public void testSuccessfulLogin() {
         LoginPage loginPage = new LoginPage(driver);
         
-        loginPage.openLoginPage("https://10.8.80.19:4443/c/login")
+        loginPage.navigateTo("https://10.8.80.19:4443/c/login")
                 .enterUsername("user")
                 .enterPassword("user")
                 .clickLoginButton();
         
-        boolean isRedirectedToConfiguration = loginPage.waitForUrlToContain("/configuration");
-        Assert.assertTrue(isRedirectedToConfiguration, "User should be redirected to configuration page after successful login");
+        boolean isRedirected = loginPage.waitForUrlContains("/configuration");
+        Assert.assertTrue(isRedirected, "User should be redirected to configuration page after successful login");
     }
     
-    @Test(description = "Test Case 2: Unsuccessful login (invalid password)")
+    @Test(description = "Test Case 2: Unsuccessful login with invalid credentials")
     public void testUnsuccessfulLoginInvalidCredentials() {
         LoginPage loginPage = new LoginPage(driver);
         
-        loginPage.openLoginPage("https://10.8.80.19:4443/c/login")
+        loginPage.navigateTo("https://10.8.80.19:4443/c/login")
                 .enterUsername("wronguser")
                 .enterPassword("wrongpassword")
                 .clickLoginButton();
@@ -38,6 +38,6 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(isErrorDisplayed, "Error message should be displayed for invalid credentials");
         
         String errorText = loginPage.getErrorMessageText();
-        Assert.assertEquals(errorText, "Incorrect credentials.", "Error message should be 'Incorrect credentials.'");
+        Assert.assertEquals(errorText, "Incorrect credentials.", "Error message text should match expected value");
     }
 }
