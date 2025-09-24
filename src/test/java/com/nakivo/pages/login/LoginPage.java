@@ -8,34 +8,34 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class LoginPage {
-    private final WebDriver driver;
-    private final WebDriverWait wait;
+    private WebDriver driver;
+    private WebDriverWait wait;
     
     // Locators
-    private final By usernameField = By.cssSelector("input[placeholder='Username']");
-    private final By passwordField = By.cssSelector("input[placeholder='Password']");
-    private final By loginButton = By.xpath("//button[.//span[text()='Log In']]");
-    private final By errorMessage = By.xpath("//div[contains(@class,'notification-message-content') and text()='Incorrect credentials.']");
+    private By usernameField = By.cssSelector("input[placeholder='Username']");
+    private By passwordField = By.cssSelector("input[placeholder='Password']");
+    private By loginButton = By.xpath("//button[.//span[text()='Log In']]");
+    private By errorMessage = By.xpath("//div[contains(@class,'notification-message-content') and text()='Incorrect credentials.']");
     
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     
-    public LoginPage openLoginPage(String url) {
+    public LoginPage navigateTo(String url) {
         driver.get(url);
         return this;
     }
     
     public LoginPage enterUsername(String username) {
-        WebElement usernameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
+        WebElement usernameElement = wait.until(ExpectedConditions.elementToBeClickable(usernameField));
         usernameElement.clear();
         usernameElement.sendKeys(username);
         return this;
     }
     
     public LoginPage enterPassword(String password) {
-        WebElement passwordElement = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
+        WebElement passwordElement = wait.until(ExpectedConditions.elementToBeClickable(passwordField));
         passwordElement.clear();
         passwordElement.sendKeys(password);
         return this;
@@ -45,6 +45,14 @@ public class LoginPage {
         WebElement loginBtn = wait.until(ExpectedConditions.elementToBeClickable(loginButton));
         loginBtn.click();
         return this;
+    }
+    
+    public boolean waitForUrlContains(String urlFragment) {
+        try {
+            return wait.until(ExpectedConditions.urlContains(urlFragment));
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     public boolean isErrorMessageDisplayed() {
@@ -57,11 +65,11 @@ public class LoginPage {
     }
     
     public String getErrorMessageText() {
-        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
-        return error.getText();
-    }
-    
-    public boolean waitForUrlToContain(String urlFragment) {
-        return wait.until(ExpectedConditions.urlContains(urlFragment));
+        try {
+            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+            return error.getText();
+        } catch (Exception e) {
+            return "";
+        }
     }
 }
