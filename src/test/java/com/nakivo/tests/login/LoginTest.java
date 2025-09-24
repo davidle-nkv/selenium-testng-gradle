@@ -14,46 +14,48 @@ public class LoginTest extends BaseTest {
     
     @Test(description = "Test Case 1: Successful login")
     public void testSuccessfulLogin() {
-        LoginPage loginPage = new LoginPage(driver);
-        
-        // Step 1: Open the login page
+        // Open the login page
         driver.get("https://10.8.80.19:4443/c/login");
         
-        // Step 2: Enter the username
+        // Initialize Page Object
+        LoginPage loginPage = new LoginPage(driver);
+        
+        // Enter username
         loginPage.enterUsername("user");
         
-        // Step 3: Enter the password
+        // Enter password
         loginPage.enterPassword("user");
         
-        // Step 4: Click the Log In button
+        // Click the Log In button
         loginPage.clickLoginButton();
         
-        // Step 5: Verify redirection to configuration page
-        boolean isRedirected = loginPage.waitForUrlToContain("/configuration");
-        Assert.assertTrue(isRedirected, "User was not redirected to the configuration page");
+        // Verify user is redirected to configuration page
+        boolean isRedirected = loginPage.waitForUrlContains("/configuration");
+        Assert.assertTrue(isRedirected, "User should be redirected to configuration page after successful login");
     }
     
-    @Test(description = "Test Case 2: Unsuccessful login with invalid credentials")
+    @Test(description = "Test Case 2: Unsuccessful login (invalid password)")
     public void testUnsuccessfulLoginInvalidPassword() {
-        LoginPage loginPage = new LoginPage(driver);
-        
-        // Step 1: Open the login page
+        // Open the login page
         driver.get("https://10.8.80.19:4443/c/login");
         
-        // Step 2: Enter the username
+        // Initialize Page Object
+        LoginPage loginPage = new LoginPage(driver);
+        
+        // Enter username
         loginPage.enterUsername("wronguser");
         
-        // Step 3: Enter the password
+        // Enter password
         loginPage.enterPassword("wrongpassword");
         
-        // Step 4: Click the Log In button
+        // Click the Log In button
         loginPage.clickLoginButton();
         
-        // Step 5: Verify error message is displayed
-        boolean isErrorDisplayed = loginPage.isErrorMessageDisplayed();
-        Assert.assertTrue(isErrorDisplayed, "Error message was not displayed");
+        // Verify that error message is displayed
+        Assert.assertTrue(loginPage.isErrorMessageDisplayed(), "Error message should be displayed for invalid credentials");
         
-        String errorText = loginPage.getErrorMessageText();
-        Assert.assertEquals(errorText, "Incorrect credentials.", "Error message text does not match expected");
+        // Verify the error message text
+        String actualErrorMessage = loginPage.getErrorMessageText();
+        Assert.assertEquals(actualErrorMessage, "Incorrect credentials.", "Error message should be 'Incorrect credentials.'");
     }
 }
