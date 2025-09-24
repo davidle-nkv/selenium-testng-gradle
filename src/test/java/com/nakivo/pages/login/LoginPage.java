@@ -22,11 +22,6 @@ public class LoginPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     
-    public LoginPage navigateToLoginPage(String url) {
-        driver.get(url);
-        return this;
-    }
-    
     public LoginPage enterUsername(String username) {
         WebElement usernameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
         usernameElement.clear();
@@ -47,14 +42,6 @@ public class LoginPage {
         return this;
     }
     
-    public boolean waitForUrlToContain(String urlPart) {
-        try {
-            return wait.until(ExpectedConditions.urlContains(urlPart));
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
     public boolean isErrorMessageDisplayed() {
         try {
             WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
@@ -70,6 +57,14 @@ public class LoginPage {
             return error.getText();
         } catch (Exception e) {
             return "";
+        }
+    }
+    
+    public boolean waitForUrlToContain(String urlPart) {
+        try {
+            return wait.until(ExpectedConditions.urlContains(urlPart));
+        } catch (Exception e) {
+            return false;
         }
     }
 }
