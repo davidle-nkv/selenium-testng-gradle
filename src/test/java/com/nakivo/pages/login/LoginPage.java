@@ -52,17 +52,13 @@ public class LoginPage {
     }
     
     public String getErrorMessageText() {
-        try {
-            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
-            return error.getText();
-        } catch (Exception e) {
-            return "";
-        }
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+        return error.getText();
     }
     
-    public boolean waitForUrlToContain(String urlPart) {
+    public boolean waitForUrlContains(String urlFragment) {
         try {
-            return wait.until(ExpectedConditions.urlContains(urlPart));
+            return wait.until(ExpectedConditions.urlContains(urlFragment));
         } catch (Exception e) {
             return false;
         }
