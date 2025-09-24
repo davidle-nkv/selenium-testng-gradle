@@ -8,21 +8,21 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class LoginPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
     
     // Locators
-    private By usernameField = By.cssSelector("input[placeholder='Username']");
-    private By passwordField = By.cssSelector("input[placeholder='Password']");
-    private By loginButton = By.xpath("//button[.//span[text()='Log In']]");
-    private By errorMessage = By.xpath("//div[contains(@class,'notification-message-content') and text()='Incorrect credentials.']");
+    private final By usernameField = By.cssSelector("input[placeholder='Username']");
+    private final By passwordField = By.cssSelector("input[placeholder='Password']");
+    private final By loginButton = By.xpath("//button[.//span[text()='Log In']]");
+    private final By errorMessage = By.xpath("//div[contains(@class,'notification-message-content') and text()='Incorrect credentials.']");
     
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     
-    public LoginPage navigateToLoginPage(String url) {
+    public LoginPage openLoginPage(String url) {
         driver.get(url);
         return this;
     }
@@ -47,21 +47,21 @@ public class LoginPage {
         return this;
     }
     
-    public boolean isRedirectedToConfiguration() {
+    public boolean isErrorMessageDisplayed() {
         try {
-            wait.until(ExpectedConditions.urlContains("/configuration"));
-            return true;
+            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+            return error.isDisplayed();
         } catch (Exception e) {
             return false;
         }
     }
     
-    public boolean isErrorMessageDisplayed(String expectedMessage) {
-        try {
-            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
-            return error.isDisplayed() && error.getText().equals(expectedMessage);
-        } catch (Exception e) {
-            return false;
-        }
+    public String getErrorMessageText() {
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+        return error.getText();
+    }
+    
+    public boolean waitForUrlToContain(String urlFragment) {
+        return wait.until(ExpectedConditions.urlContains(urlFragment));
     }
 }
