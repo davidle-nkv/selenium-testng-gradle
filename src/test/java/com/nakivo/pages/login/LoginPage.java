@@ -22,20 +22,20 @@ public class LoginPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     
-    public LoginPage navigateTo(String url) {
+    public LoginPage navigateToLoginPage(String url) {
         driver.get(url);
         return this;
     }
     
     public LoginPage enterUsername(String username) {
-        WebElement usernameElement = wait.until(ExpectedConditions.elementToBeClickable(usernameField));
+        WebElement usernameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
         usernameElement.clear();
         usernameElement.sendKeys(username);
         return this;
     }
     
     public LoginPage enterPassword(String password) {
-        WebElement passwordElement = wait.until(ExpectedConditions.elementToBeClickable(passwordField));
+        WebElement passwordElement = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
         passwordElement.clear();
         passwordElement.sendKeys(password);
         return this;
@@ -47,9 +47,10 @@ public class LoginPage {
         return this;
     }
     
-    public boolean waitForUrlContains(String urlFragment) {
+    public boolean isRedirectedToConfiguration() {
         try {
-            return wait.until(ExpectedConditions.urlContains(urlFragment));
+            wait.until(ExpectedConditions.urlContains("/configuration"));
+            return true;
         } catch (Exception e) {
             return false;
         }
