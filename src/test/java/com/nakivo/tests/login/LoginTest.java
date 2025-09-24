@@ -1,10 +1,10 @@
 package com.nakivo.tests.login;
 
+import com.nakivo.pages.login.LoginPage;
+import com.nakivo.tests.base.BaseTest;
 import com.nakivo.listeners.VideoListenerWithUI;
 import com.nakivo.listeners.LogListener;
 import com.nakivo.listeners.ScreenshotListener;
-import com.nakivo.pages.login.LoginPage;
-import com.nakivo.tests.base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -12,50 +12,29 @@ import org.testng.annotations.Test;
 @Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
 public class LoginTest extends BaseTest {
     
-    @Test(description = "Test Case 1: Successful login")
+    @Test(description = "Test successful login with valid credentials")
     public void testSuccessfulLogin() {
-        // Open the login page
-        driver.get("https://10.8.80.19:4443/c/login");
-        
-        // Initialize Page Object
         LoginPage loginPage = new LoginPage(driver);
         
-        // Enter username
-        loginPage.enterUsername("user");
+        loginPage.navigateToLoginPage("https://10.8.80.19:4443/c/login")
+                .enterUsername("user")
+                .enterPassword("user")
+                .clickLoginButton();
         
-        // Enter password
-        loginPage.enterPassword("user");
-        
-        // Click the Log In button
-        loginPage.clickLoginButton();
-        
-        // Verify user is redirected to configuration page
-        boolean isRedirected = loginPage.waitForUrlContains("/configuration");
-        Assert.assertTrue(isRedirected, "User should be redirected to configuration page after successful login");
+        Assert.assertTrue(loginPage.isRedirectedToConfiguration(), 
+                "User should be redirected to configuration page after successful login");
     }
     
-    @Test(description = "Test Case 2: Unsuccessful login (invalid password)")
-    public void testUnsuccessfulLoginInvalidPassword() {
-        // Open the login page
-        driver.get("https://10.8.80.19:4443/c/login");
-        
-        // Initialize Page Object
+    @Test(description = "Test unsuccessful login with invalid credentials")
+    public void testUnsuccessfulLogin() {
         LoginPage loginPage = new LoginPage(driver);
         
-        // Enter username
-        loginPage.enterUsername("wronguser");
+        loginPage.navigateToLoginPage("https://10.8.80.19:4443/c/login")
+                .enterUsername("wronguser")
+                .enterPassword("wrongpassword")
+                .clickLoginButton();
         
-        // Enter password
-        loginPage.enterPassword("wrongpassword");
-        
-        // Click the Log In button
-        loginPage.clickLoginButton();
-        
-        // Verify that error message is displayed
-        Assert.assertTrue(loginPage.isErrorMessageDisplayed(), "Error message should be displayed for invalid credentials");
-        
-        // Verify the error message text
-        String actualErrorMessage = loginPage.getErrorMessageText();
-        Assert.assertEquals(actualErrorMessage, "Incorrect credentials.", "Error message should be 'Incorrect credentials.'");
+        Assert.assertTrue(loginPage.isErrorMessageDisplayed("Incorrect credentials."), 
+                "Error message 'Incorrect credentials.' should be displayed for invalid login");
     }
 }
