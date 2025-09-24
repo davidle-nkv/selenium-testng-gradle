@@ -1,10 +1,10 @@
 package com.nakivo.tests.login;
 
-import com.nakivo.pages.login.LoginPage;
-import com.nakivo.tests.base.BaseTest;
-import com.nakivo.listeners.VideoListenerWithUI;
 import com.nakivo.listeners.LogListener;
 import com.nakivo.listeners.ScreenshotListener;
+import com.nakivo.listeners.VideoListenerWithUI;
+import com.nakivo.pages.login.LoginPage;
+import com.nakivo.tests.base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -12,29 +12,32 @@ import org.testng.annotations.Test;
 @Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
 public class LoginTest extends BaseTest {
     
-    @Test(description = "Test successful login with valid credentials")
+    @Test(description = "Test Case 1: Successful login")
     public void testSuccessfulLogin() {
         LoginPage loginPage = new LoginPage(driver);
         
-        loginPage.navigateToLoginPage("https://10.8.80.19:4443/c/login")
+        loginPage.openLoginPage("https://10.8.80.19:4443/c/login")
                 .enterUsername("user")
                 .enterPassword("user")
                 .clickLoginButton();
         
-        Assert.assertTrue(loginPage.isRedirectedToConfiguration(), 
-                "User should be redirected to configuration page after successful login");
+        boolean isRedirectedToConfiguration = loginPage.waitForUrlToContain("/configuration");
+        Assert.assertTrue(isRedirectedToConfiguration, "User should be redirected to configuration page after successful login");
     }
     
-    @Test(description = "Test unsuccessful login with invalid credentials")
-    public void testUnsuccessfulLogin() {
+    @Test(description = "Test Case 2: Unsuccessful login (invalid password)")
+    public void testUnsuccessfulLoginInvalidCredentials() {
         LoginPage loginPage = new LoginPage(driver);
         
-        loginPage.navigateToLoginPage("https://10.8.80.19:4443/c/login")
+        loginPage.openLoginPage("https://10.8.80.19:4443/c/login")
                 .enterUsername("wronguser")
                 .enterPassword("wrongpassword")
                 .clickLoginButton();
         
-        Assert.assertTrue(loginPage.isErrorMessageDisplayed("Incorrect credentials."), 
-                "Error message 'Incorrect credentials.' should be displayed for invalid login");
+        boolean isErrorDisplayed = loginPage.isErrorMessageDisplayed();
+        Assert.assertTrue(isErrorDisplayed, "Error message should be displayed for invalid credentials");
+        
+        String errorText = loginPage.getErrorMessageText();
+        Assert.assertEquals(errorText, "Incorrect credentials.", "Error message should be 'Incorrect credentials.'");
     }
 }
