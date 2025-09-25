@@ -23,14 +23,14 @@ public class LoginPage {
     }
     
     public LoginPage enterUsername(String username) {
-        WebElement usernameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
+        WebElement usernameElement = wait.until(ExpectedConditions.presenceOfElementLocated(usernameField));
         usernameElement.clear();
         usernameElement.sendKeys(username);
         return this;
     }
     
     public LoginPage enterPassword(String password) {
-        WebElement passwordElement = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
+        WebElement passwordElement = wait.until(ExpectedConditions.presenceOfElementLocated(passwordField));
         passwordElement.clear();
         passwordElement.sendKeys(password);
         return this;
@@ -60,9 +60,9 @@ public class LoginPage {
         }
     }
     
-    public boolean waitForUrlToContain(String urlFragment) {
+    public boolean waitForUrlContains(String urlPart) {
         try {
-            return wait.until(ExpectedConditions.urlContains(urlFragment));
+            return wait.until(ExpectedConditions.urlContains(urlPart));
         } catch (Exception e) {
             return false;
         }
