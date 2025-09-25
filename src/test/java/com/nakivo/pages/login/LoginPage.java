@@ -44,19 +44,23 @@ public class LoginPage {
     
     public boolean isErrorMessageDisplayed() {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
-            return true;
+            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+            return error.isDisplayed();
         } catch (Exception e) {
             return false;
         }
     }
     
     public String getErrorMessageText() {
-        WebElement errorElement = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
-        return errorElement.getText();
+        try {
+            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+            return error.getText();
+        } catch (Exception e) {
+            return "";
+        }
     }
     
-    public boolean waitForUrlContains(String urlFragment) {
+    public boolean waitForUrlToContain(String urlFragment) {
         try {
             return wait.until(ExpectedConditions.urlContains(urlFragment));
         } catch (Exception e) {
