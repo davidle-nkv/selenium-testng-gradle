@@ -47,15 +47,6 @@ public class LoginPage {
         return this;
     }
     
-    public boolean isRedirectedToConfiguration() {
-        try {
-            wait.until(ExpectedConditions.urlContains("/configuration"));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
     public boolean isErrorMessageDisplayed() {
         try {
             WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
@@ -66,11 +57,15 @@ public class LoginPage {
     }
     
     public String getErrorMessageText() {
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+        return error.getText();
+    }
+    
+    public boolean waitForUrlToContain(String urlPart) {
         try {
-            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
-            return error.getText();
+            return wait.until(ExpectedConditions.urlContains(urlPart));
         } catch (Exception e) {
-            return "";
+            return false;
         }
     }
 }
