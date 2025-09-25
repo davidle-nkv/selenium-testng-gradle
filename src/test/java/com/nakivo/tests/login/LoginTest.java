@@ -1,8 +1,8 @@
 package com.nakivo.tests.login;
 
+import com.nakivo.listeners.VideoListenerWithUI;
 import com.nakivo.listeners.LogListener;
 import com.nakivo.listeners.ScreenshotListener;
-import com.nakivo.listeners.VideoListenerWithUI;
 import com.nakivo.pages.login.LoginPage;
 import com.nakivo.tests.base.BaseTest;
 import org.testng.Assert;
@@ -28,13 +28,13 @@ public class LoginTest extends BaseTest {
         // Step 4: Click the "Log In" button
         loginPage.clickLoginButton();
         
-        // Step 5: Verify user is redirected to configuration page
-        boolean isRedirected = loginPage.waitForUrlContains("/configuration");
+        // Step 5: Verify redirection to configuration page
+        boolean isRedirected = loginPage.waitForUrlToContain("/configuration");
         Assert.assertTrue(isRedirected, "User should be redirected to configuration page after successful login");
     }
     
-    @Test(description = "Test Case 2: Unsuccessful login with invalid credentials")
-    public void testUnsuccessfulLoginInvalidCredentials() {
+    @Test(description = "Test Case 2: Unsuccessful login with invalid password")
+    public void testUnsuccessfulLoginInvalidPassword() {
         LoginPage loginPage = new LoginPage(driver);
         
         // Step 1: Open the login page
@@ -51,9 +51,9 @@ public class LoginTest extends BaseTest {
         
         // Step 5: Verify error message is displayed
         boolean isErrorDisplayed = loginPage.isErrorMessageDisplayed();
-        Assert.assertTrue(isErrorDisplayed, "Error message should be displayed for invalid credentials");
+        Assert.assertTrue(isErrorDisplayed, "Error message should be displayed for incorrect credentials");
         
         String errorText = loginPage.getErrorMessageText();
-        Assert.assertEquals(errorText, "Incorrect credentials.", "Error message text should match expected value");
+        Assert.assertEquals(errorText, "Incorrect credentials.", "Error message should be 'Incorrect credentials.'");
     }
 }
