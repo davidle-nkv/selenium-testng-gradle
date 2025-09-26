@@ -1,4 +1,4 @@
-package com.nakivo.pages.login_bk;
+package com.nakivo.pages.loginbk;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -17,7 +17,7 @@ import java.time.Duration;
  * Date: 9/12/2025
  * Time: 4:01 PM
  */
-public class LoginPage_bk {
+public class LoginBkPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -27,7 +27,7 @@ public class LoginPage_bk {
     private By loginButton = By.xpath("//button[.//span[text()='Log In']]"); //By.xpath("//div[contains(text(),'Log In')]");
     private By errorMessage = By.xpath("//div[contains(@class,'notification-message-content') and text()='Incorrect credentials.']");
 
-    public LoginPage_bk(WebDriver driver) {
+    public LoginBkPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }

@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 @Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
 public class LoginTest extends BaseTest {
     
-    @Test(description = "Test successful login with valid credentials")
+    @Test(description = "Test successful login with valid credentials", groups = { "login", "login.success" })
     public void testSuccessfulLogin() {
         LoginPage loginPage = new LoginPage(driver);
         
@@ -25,7 +25,7 @@ public class LoginTest extends BaseTest {
                 "User should be redirected to configuration page after successful login");
     }
     
-    @Test(description = "Test unsuccessful login with invalid credentials")
+    @Test(description = "Test unsuccessful login with invalid credentials", groups = { "login", "login.failure" })
     public void testUnsuccessfulLogin() {
         LoginPage loginPage = new LoginPage(driver);
         

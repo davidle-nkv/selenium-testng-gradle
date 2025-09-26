@@ -1,4 +1,4 @@
-package com.nakivo.pages.dashboard_bk;
+package com.nakivo.pages.dashboardbk;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,14 +16,14 @@ import java.time.Duration;
  * Time: 4:19 PM
  */
 
-public class DashboardPage_bk {
+public class DashboardPageBk {
     private WebDriver driver;
     private WebDriverWait wait;
 
     // Locators
     private By dashboardHeader = By.xpath("//h1[contains(text(),'Dashboard')] | //div[@id='dashboard'] | //div[contains(@class,'dashboard')]");
 
-    public DashboardPage_bk(WebDriver driver) {
+    public DashboardPageBk(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }

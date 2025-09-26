@@ -17,16 +17,9 @@ dependencies {
     implementation 'com.github.stephenc.monte:monte-screen-recorder:0.7.7.0'
 }
 
-//test {
-//    useTestNG() {
-//        suites 'src/test/resources/testng.xml'
-//    }
-//}
 test {
     useTestNG() {
-        if (project.hasProperty("groups")) {
-            includeGroups project.property("groups")
-        }
+        includeGroups System.getProperty("groups", "NONE")
     }
 }
 
