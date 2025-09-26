@@ -12,21 +12,24 @@ import org.testng.annotations.Test;
 @Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
 public class ProxmoxReplicationWizardTest extends BaseTest {
 
-    @Test(description = "Verify Change Tracking dropdown options in Proxmox VE Replication Job Wizard", groups = { "njm124958", "njm124958.changeTrackingDropdown" })
-    public void testChangeTrackingDropdownOptions() {
-        // Step 1: Login and navigate to overview page
+    @Test(description = "Verify Proxmox VE replication job wizard displays correct change tracking options", groups = { "njm124958", "njm124958.changeTrackingOptions" })
+    public void testProxmoxReplicationChangeTrackingOptions() {
+        // Step 1: Login to NBR director
         driver.get("https://10.10.17.75:4443/c/login");
         
-        // Assuming login is handled by BaseTest or we need to perform login here
-        // Since the test assumes we're already logged in and on overview page
+        // Assuming login is handled by BaseTest or we need to add login steps here
+        // For this test, we assume user is already logged in or login is handled in BaseTest
+        // If not, login page object would need to be created separately
+        
+        // Navigate to overview page after login
         driver.get("https://10.10.17.75:4443/c/overview");
         
         ProxmoxReplicationWizardPage wizardPage = new ProxmoxReplicationWizardPage(driver);
         
-        // Step 2: Navigate to Job Dashboard and create new replication job
-        wizardPage.navigateToJobDashboard()
+        // Step 2: Navigate to Job Dashboard and start new replication job
+        wizardPage.clickJobDashboard()
                   .clickAddJobButton()
-                  .selectReplicationForProxmoxVE();
+                  .selectReplicationForProxmox();
         
         // Verify wizard is displayed
         Assert.assertTrue(wizardPage.isWizardDisplayed(), 
@@ -36,24 +39,26 @@ public class ProxmoxReplicationWizardTest extends BaseTest {
         wizardPage.selectFirstVM()
                   .navigateToLastStep();
         
-        // Verify Change tracking dropdown options
-        Assert.assertTrue(wizardPage.verifyChangeTrackingDropdownOptions(),
-                "Change tracking dropdown should contain all required options");
+        // Click on Change tracking dropdown
+        wizardPage.clickChangeTrackingDropdown();
         
-        // Verify 'Use Proxmox VE CBT' is displayed
-        Assert.assertTrue(wizardPage.isProxmoxCbtOptionDisplayed(),
-                "'Use Proxmox VE CBT' option should be displayed");
+        // Verify all three options are displayed
+        Assert.assertTrue(wizardPage.isProxmoxCBTOptionDisplayed(), 
+                "'Use Proxmox VE CBT' option should be displayed in Change tracking dropdown");
+        
+        Assert.assertTrue(wizardPage.isProprietaryMethodOptionDisplayed(), 
+                "'Use proprietary method' option should be displayed in Change tracking dropdown");
+        
+        Assert.assertTrue(wizardPage.isNoChangeTrackingOptionDisplayed(), 
+                "'No change tracking (always full)' option should be displayed in Change tracking dropdown");
         
         // Verify 'Use Proxmox VE CBT' is selected by default
-        Assert.assertTrue(wizardPage.isProxmoxCbtOptionSelected(),
-                "'Use Proxmox VE CBT' option should be selected by default");
+        Assert.assertTrue(wizardPage.isProxmoxCBTSelectedByDefault(), 
+                "'Use Proxmox VE CBT' should be selected by default in Change tracking dropdown");
         
-        // Verify 'Use proprietary method' is displayed
-        Assert.assertTrue(wizardPage.isProprietaryMethodOptionDisplayed(),
-                "'Use proprietary method' option should be displayed");
-        
-        // Verify 'No change tracking (always full)' is displayed
-        Assert.assertTrue(wizardPage.isNoChangeTrackingOptionDisplayed(),
-                "'No change tracking (always full)' option should be displayed");
+        // Additional verification: ensure exactly 3 options are present
+        int optionsCount = wizardPage.getChangeTrackingOptionsCount();
+        Assert.assertEquals(optionsCount, 3, 
+                "Change tracking dropdown should contain exactly 3 options");
     }
 }
