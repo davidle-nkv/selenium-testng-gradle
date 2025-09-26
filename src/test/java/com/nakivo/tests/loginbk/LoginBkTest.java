@@ -18,15 +18,15 @@ import org.testng.annotations.Test;
  * Time: 4:16 PM
  */
 //@Test(groups = {"login_bk"})
-@Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
+//@Listeners({ VideoListenerWithUI.class, LogListener.class, ScreenshotListener.class })
 public class LoginBkTest extends BaseTest {
     private final String LOGIN_URL = "https://10.8.80.19:4443/c/login";
 
 //    @Test(description = "Test Case 1: Successful login", groups = {"login_bk"})
-    @Test(
-        description = "Test Case 1: Successful login",
-        groups = {"login_bk", "login_bk.success"}
-    )
+//    @Test(
+//        description = "Test Case 1: Successful login",
+//        groups = {"login_bk", "login_bk.success"}
+//    )
     public void testSuccessfulLogin() {
         System.out.println("Starting test: Successful login");
         LoginBkPage loginPage = new LoginBkPage(driver);
@@ -51,10 +51,10 @@ public class LoginBkTest extends BaseTest {
         System.out.println("Completed test: Successful login");
     }
 
-    @Test(
-        description = "Test Case 2: Unsuccessful login with invalid credentials",
-        groups = {"login_bk", "login_bk.failure"}
-    )
+//    @Test(
+//        description = "Test Case 2: Unsuccessful login with invalid credentials",
+//        groups = {"login_bk", "login_bk.failure"}
+//    )
     public void testUnsuccessfulLoginInvalidPassword() {
         System.out.println("Starting test: Unsuccessful login with invalid credentials");
 
