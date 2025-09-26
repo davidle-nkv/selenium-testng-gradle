@@ -3,8 +3,8 @@ package com.nakivo.pages.njm1234.replication;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.Select;
 import java.time.Duration;
 import java.util.List;
@@ -16,109 +16,114 @@ public class ProxmoxReplicationJobPage {
     private static final int WAIT_TIMEOUT = 15;
 
     // Locators
-    private final By overviewPageTitle = By.xpath("//h1[contains(text(),'Overview')] | //div[@class='overview-header']");
-    private final By jobDashboardLink = By.xpath("//a[contains(@href,'/jobs')] | //span[text()='Jobs'] | //a[text()='Job Dashboard']");
-    private final By createJobButton = By.xpath("//button[@aria-label='Create job'] | //button[contains(@class,'add-job')] | //button[@title='Create New Job'] | //button[text()='+'] | //button[contains(@class,'btn-create')]");
-    private final By replicationProxmoxOption = By.xpath("//span[contains(text(),'Replication for Proxmox VE')] | //a[contains(text(),'Replication for Proxmox VE')] | //div[contains(text(),'Replication for Proxmox VE')]");
-    private final By wizardTitle = By.xpath("//h2[contains(text(),'New Replication Job')] | //div[contains(text(),'New Replication Job Wizard')]");
-    private final By vmCheckboxes = By.xpath("//input[@type='checkbox'][contains(@name,'vm')] | //div[@class='vm-item']//input[@type='checkbox']");
-    private final By nextButton = By.xpath("//button[text()='Next'] | //button[contains(@class,'btn-next')] | //button[@type='button'][contains(text(),'Next')]");
-    private final By changeTrackingDropdown = By.xpath("//select[contains(@name,'changeTracking')] | //div[contains(@class,'change-tracking')]//select | //label[contains(text(),'Change tracking')]//following-sibling::select");
-    private final By changeTrackingDropdownButton = By.xpath("//button[contains(@aria-label,'Change tracking')] | //div[contains(@class,'dropdown-toggle')][contains(text(),'Change tracking')] | //div[@class='change-tracking-dropdown']//button");
-    private final By changeTrackingOptions = By.xpath("//div[@class='dropdown-menu show']//a | //ul[@class='dropdown-menu']//li | //option");
-    private final By proxmoxCbtOption = By.xpath("//option[contains(text(),'Use Proxmox VE CBT')] | //a[contains(text(),'Use Proxmox VE CBT')] | //li[contains(text(),'Use Proxmox VE CBT')]");
-    private final By proprietaryMethodOption = By.xpath("//option[contains(text(),'Use proprietary method')] | //a[contains(text(),'Use proprietary method')] | //li[contains(text(),'Use proprietary method')]");
-    private final By noChangeTrackingOption = By.xpath("//option[contains(text(),'No change tracking')] | //a[contains(text(),'No change tracking')] | //li[contains(text(),'always full')]");
-    private final By selectedChangeTrackingValue = By.xpath("//select[contains(@name,'changeTracking')]/option[@selected] | //div[contains(@class,'change-tracking')]//span[@class='selected-value'] | //button[contains(@aria-label,'Change tracking')]/span");
+    private final By addJobButton = By.xpath("//button[contains(@class, 'add-job-button') or contains(text(), '+')]//ancestor::button[1]");
+    private final By replicationProxmoxOption = By.xpath("//span[contains(text(), 'Replication for Proxmox VE')] | //a[contains(text(), 'Replication for Proxmox VE')]");
+    private final By wizardTitle = By.xpath("//h1[contains(text(), 'New Replication Job Wizard for Proxmox VE')] | //div[contains(@class, 'wizard-title')][contains(text(), 'New Replication Job Wizard')]");
+    private final By vmCheckbox = By.xpath("(//input[@type='checkbox'][contains(@class, 'vm-checkbox')] | //div[contains(@class, 'vm-list')]//input[@type='checkbox'])[1]");
+    private final By nextButton = By.xpath("//button[contains(text(), 'Next')] | //button[contains(@class, 'next-button')]");
+    private final By changeTrackingDropdown = By.xpath("//select[contains(@id, 'changeTracking')] | //div[contains(@class, 'change-tracking')]//select | //label[contains(text(), 'Change tracking')]//following-sibling::select");
+    private final By changeTrackingDropdownOptions = By.xpath("//select[contains(@id, 'changeTracking')]//option | //div[contains(@class, 'change-tracking')]//option");
+    private final By finishButton = By.xpath("//button[contains(text(), 'Finish')] | //button[contains(@class, 'finish-button')]");
+    private final By jobNameInput = By.xpath("//input[@id='jobName' or @name='jobName' or contains(@placeholder, 'Job name')]");
 
     public ProxmoxReplicationJobPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT));
     }
 
-    public ProxmoxReplicationJobPage waitForOverviewPage() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(overviewPageTitle));
+    public ProxmoxReplicationJobPage clickAddJobButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(addJobButton)).click();
         return this;
     }
 
-    public ProxmoxReplicationJobPage navigateToJobDashboard() {
-        WebElement jobDashboard = wait.until(ExpectedConditions.elementToBeClickable(jobDashboardLink));
-        jobDashboard.click();
-        return this;
-    }
-
-    public ProxmoxReplicationJobPage clickCreateJobButton() {
-        WebElement createButton = wait.until(ExpectedConditions.elementToBeClickable(createJobButton));
-        createButton.click();
-        return this;
-    }
-
-    public ProxmoxReplicationJobPage selectReplicationForProxmox() {
-        WebElement replicationOption = wait.until(ExpectedConditions.elementToBeClickable(replicationProxmoxOption));
-        replicationOption.click();
+    public ProxmoxReplicationJobPage selectReplicationForProxmoxVE() {
+        wait.until(ExpectedConditions.elementToBeClickable(replicationProxmoxOption)).click();
         return this;
     }
 
     public boolean isWizardDisplayed() {
         try {
-            WebElement wizard = wait.until(ExpectedConditions.visibilityOfElementLocated(wizardTitle));
-            return wizard.isDisplayed();
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(wizardTitle)).isDisplayed();
         } catch (Exception e) {
             return false;
         }
     }
 
     public ProxmoxReplicationJobPage selectFirstVM() {
-        List<WebElement> vms = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(vmCheckboxes));
-        if (!vms.isEmpty() && !vms.get(0).isSelected()) {
-            vms.get(0).click();
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(vmCheckbox));
+        if (!checkbox.isSelected()) {
+            checkbox.click();
         }
+        return this;
+    }
+
+    public ProxmoxReplicationJobPage enterJobName(String name) {
+        WebElement jobName = wait.until(ExpectedConditions.visibilityOfElementLocated(jobNameInput));
+        jobName.clear();
+        jobName.sendKeys(name);
         return this;
     }
 
     public ProxmoxReplicationJobPage clickNext() {
-        WebElement next = wait.until(ExpectedConditions.elementToBeClickable(nextButton));
-        next.click();
+        wait.until(ExpectedConditions.elementToBeClickable(nextButton)).click();
         return this;
     }
 
     public ProxmoxReplicationJobPage navigateToLastStep() {
-        // Click Next multiple times to reach the last step
-        // The actual number of steps may vary, so we'll click Next until we find the Change Tracking dropdown
-        int maxSteps = 10;
+        // Navigate through all steps until we reach the last one with Change tracking
+        int maxSteps = 10; // Safety limit
         for (int i = 0; i < maxSteps; i++) {
             try {
-                // Check if Change Tracking dropdown is present
-                if (isChangeTrackingDropdownPresent()) {
+                // Check if we're at the last step (Change tracking is visible)
+                if (driver.findElements(changeTrackingDropdown).size() > 0) {
                     break;
                 }
-                // If not, click Next if available
-                WebElement next = driver.findElement(nextButton);
-                if (next.isEnabled()) {
-                    next.click();
-                    wait.until(ExpectedConditions.stalenessOf(next));
+                // Check if Finish button is visible (alternative last step indicator)
+                if (driver.findElements(finishButton).size() > 0) {
+                    break;
                 }
+                clickNext();
+                // Small wait between steps
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'loading') or contains(@class, 'spinner')]"))); 
             } catch (Exception e) {
-                // Continue to next iteration
+                // Continue if Next is not available
+                break;
             }
         }
         return this;
     }
 
-    public boolean isChangeTrackingDropdownPresent() {
+    public boolean isChangeTrackingDropdownVisible() {
         try {
-            WebElement dropdown = driver.findElement(changeTrackingDropdown);
-            return dropdown.isDisplayed();
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(changeTrackingDropdown)).isDisplayed();
         } catch (Exception e) {
-            try {
-                WebElement dropdownButton = driver.findElement(changeTrackingDropdownButton);
-                return dropdownButton.isDisplayed();
-            } catch (Exception ex) {
-                return false;
-            }
+            return false;
         }
     }
 
-    public ProxmoxReplicationJobPage openChangeTrackingDropdown() {
-        try {
-            // Try to click on select
+    public List<String> getChangeTrackingOptions() {
+        Select select = new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(changeTrackingDropdown)));
+        return select.getOptions().stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    public String getSelectedChangeTrackingOption() {
+        Select select = new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(changeTrackingDropdown)));
+        return select.getFirstSelectedOption().getText();
+    }
+
+    public boolean isProxmoxCBTSelectedByDefault() {
+        String selectedOption = getSelectedChangeTrackingOption();
+        return selectedOption.contains("Use Proxmox VE CBT");
+    }
+
+    public boolean verifyChangeTrackingOptions() {
+        List<String> options = getChangeTrackingOptions();
+        boolean hasProxmoxCBT = options.stream().anyMatch(opt -> opt.contains("Use Proxmox VE CBT"));
+        boolean hasProprietaryMethod = options.stream().anyMatch(opt -> opt.contains("Use proprietary method"));
+        boolean hasNoChangeTracking = options.stream().anyMatch(opt -> opt.contains("No change tracking") && opt.contains("always full"));
+        
+        return hasProxmoxCBT && hasProprietaryMethod && hasNoChangeTracking;
+    }
+}
