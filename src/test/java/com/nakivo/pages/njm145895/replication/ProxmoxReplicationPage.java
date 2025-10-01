@@ -1,6 +1,7 @@
 package com.nakivo.pages.njm145895.replication;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -84,6 +85,14 @@ public class ProxmoxReplicationPage {
 
     public ProxmoxReplicationPage selectContainer() {
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(containerItem));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(
+            "arguments[0].scrollIntoView(true);" +
+                "arguments[0].dispatchEvent(new MouseEvent('mousedown', {bubbles:true}));" +
+                "arguments[0].dispatchEvent(new MouseEvent('mouseup', {bubbles:true}));" +
+                "arguments[0].dispatchEvent(new MouseEvent('click', {bubbles:true}));",
+            element
+        );
         element.click();
         return this;
     }
