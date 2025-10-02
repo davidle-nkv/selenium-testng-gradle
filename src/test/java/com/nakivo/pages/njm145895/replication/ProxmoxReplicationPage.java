@@ -29,7 +29,7 @@ public class ProxmoxReplicationPage {
 
     // Destination Step Locators
     private final By containerSelector = By.xpath("//div[contains(@class,'item-selector')]//div[contains(@class,'glT1') and contains(normalize-space(.),'Select target container')]");
-    private final By containerItem = By.xpath("//div[@class='x-grid-cell-inner' and normalize-space(text())='proxmox02']");
+    private final By containerItem = By.xpath("//div[contains(@class,'x-grid-cell-inner') and normalize-space(text())='proxmox02']");
     private final By targetStorageSelector = By.xpath("//div[contains(@class,'item-selector')]//div[contains(@class,'glT1') and contains(normalize-space(.),'Select target storage')]");
     private final By targetStorageItem = By.xpath("//div[@class='stItemViewDiv1' and normalize-space(text())='DirectoryFS-Proxmox02']");
     private final By poolSelector = By.xpath("//div[contains(@class,'item-selector')]//div[contains(@class,'glT1') and contains(normalize-space(.),'Select target pool (optional)')]");
@@ -95,44 +95,52 @@ public class ProxmoxReplicationPage {
 
     // Destination Step Methods
     public ProxmoxReplicationPage clickContainerSelector() {
-        wait.until(ExpectedConditions.elementToBeClickable(containerSelector)).click();
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(containerSelector));
+        element.click();
         return this;
     }
 
     public ProxmoxReplicationPage selectContainer() {
-        wait.until(ExpectedConditions.elementToBeClickable(containerItem)).click();
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(containerItem));
+        element.click();
         return this;
     }
 
     public ProxmoxReplicationPage clickTargetStorageSelector() {
-        wait.until(ExpectedConditions.elementToBeClickable(targetStorageSelector)).click();
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(targetStorageSelector));
+        element.click();
         return this;
     }
 
     public ProxmoxReplicationPage selectTargetStorage() {
-        wait.until(ExpectedConditions.elementToBeClickable(targetStorageItem)).click();
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(targetStorageItem));
+        element.click();
         return this;
     }
 
     public ProxmoxReplicationPage clickPoolSelector() {
-        wait.until(ExpectedConditions.elementToBeClickable(poolSelector)).click();
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(poolSelector));
+        element.click();
         return this;
     }
 
     public ProxmoxReplicationPage selectPool() {
-        wait.until(ExpectedConditions.elementToBeClickable(poolItem)).click();
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(poolItem));
+        element.click();
         return this;
     }
 
     // Schedule Step Methods
     public ProxmoxReplicationPage clickDoNotSchedule() {
-        wait.until(ExpectedConditions.elementToBeClickable(doNotScheduleCheckbox)).click();
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(doNotScheduleCheckbox));
+        element.click();
         return this;
     }
 
     // Options Step Methods
     public ProxmoxReplicationPage clickFinish() {
-        wait.until(ExpectedConditions.elementToBeClickable(finishButton)).click();
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(finishButton));
+        element.click();
         return this;
     }
 
